@@ -182,4 +182,68 @@ from Person.Person PP
   on PP.BusinessEntityID = PPH.BusinessEntityID
   where PP.BusinessEntityID = 2510;
 
-  -- UNIONS
+  -- UNIONS Queries processes contents of two or more tables into a single table
+  -- lets work with tables sales.countryregion currency and person.countryregion.
+  -- Union will give you distinct values, but UNION ALL will not remove duplicate rows.
+  --to use UNION, the tables must have (a) same number of column (b)data types in the columns must be similar
+
+select *
+from sales.CountryRegionCurrency
+  union
+select *
+from Person.CountryRegion;
+
+-- INTERSECTS... it will not return all rows in an inner join for example, it will return distinct rows in them
+-- The number of columns of both tables must be the same
+
+-- EXCEPT.. The SQL Server compares result of two sets of queries and returns the distnct rows of the first query.
+
+-- some practice: (a) produce BusinessEntityID, NationalIDNumber, Gender and JobTitle of every employee
+-- (b) produce list of female employees, include their full names.
+
+select
+BusinessEntityID,
+NationalIDNumber,
+Gender,
+JobTitle 
+from HumanResources.Employee
+order by BusinessEntityID;
+-- (b)
+select
+HRE.BusinessEntityID,
+HRE.NationalIDNumber,
+PP.Firstname,
+PP.Lastname,
+HRE.JobTitle,
+HRE.Gender
+from HumanResources.Employee HRE
+join
+Person.Person PP
+on HRE.BusinessEntityID = PP.BusinessEntityID
+where Gender = 'F'
+order by BusinessEntityID;
+
+/* BUILT-IN FUNCTIONS
+There are: Scalar Functions, Aggregate Functions and Logical Functions.
+Aggregate Functions include: Count, Sum, Average, Max, Min, Dev, Stdev*/
+-- USING AGGREGATE FUNCTIONS
+
+select * from Production.Product;
+-- Example: What is the number of products (TotalProducts) in our store
+-- NOTE: ALWAYS CONSIDER DISTINCT in mind to avoid repetition.
+
+select COUNT (distinct ProductID) as TotalProducts
+from Production.Product;
+
+-- Example: find the average cost of products
+select Avg(StandardCost) as AvgCost
+from Production.Product;
+
+-- which is the most expensive product?
+select Max(ListPrice) as MostExpensiveProduct
+from Production.Product;
+-- OR
+select Name, Max(ListPrice) as MostExpensiveProduct
+from Production.Product
+where ListPrice <> 0
+Group by Name;
