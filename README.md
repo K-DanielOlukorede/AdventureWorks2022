@@ -247,3 +247,47 @@ select Name, Max(ListPrice) as MostExpensiveProduct
 from Production.Product
 where ListPrice <> 0
 Group by Name;
+
+-- GROUP BY: It creates groups for output rows based on the values specified in the Group By Clause.
+--whenever you include an aggregate function in your code, add Group By Clause to your code.
+
+select *
+from sales.SalesOrderHeader;
+
+select CustomerID, count (*) as "Orders"
+from sales.SalesOrderHeader
+group by CustomerID;
+-- This code above shows the count of the orders made by each customer.
+
+-- HAVING CLAUSE: it is like the WHERE Clause, it shows a search condition to process but the difference is that it comes
+-- after GROUP BY. WHERE CLAUSE filters rows while HAVING CLUASE filters the Groups based on the specified condition
+--- and Groups are column based
+
+
+/* DATABASE DEFINITION LANGUAGE (DDL)- SQL commands used to defined the database schema. To create, modify the structure
+of objects in the database... CREATE, DROP & ALTER */
+-- When creating a DB, the name of your Database should not be more than 128 characters.
+
+create database SampleDb  
+
+exec sp_databases -- used to view all that Databases you have
+
+Create schema QuantumAnalytics
+
+create table May_Cohort(
+   Student_ID int,
+   First_Name varchar (50) Not Null,
+   Last_Name varchar (50) Not Null,
+   Email varchar (100) Not Null,
+   Phone varchar (20) Not Null
+);
+
+select * from May_Cohort;
+
+insert into May_Cohort values
+(00001, 'Magaret', 'Abigail', 'm.a@gmail.com', '+997654321');
+
+insert into May_Cohort values
+(00002, 'Peter', 'Tobi', 'pt@ymail.com', '000099999776'),
+(00003, 'Andrew', 'Jake', 'aj@gmail.com', '000099991234'),
+(00004, 'Nneka', 'Chukwu', 'achukwu@ymail.com', '00009965432');
